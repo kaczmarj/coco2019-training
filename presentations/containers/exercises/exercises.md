@@ -187,7 +187,7 @@ cd my_docker
 
 - create a Dockerfile using Neurodocker:
 ```bash
-docker run --rm kaczmarj/neurodocker:master generate docker \
+docker run --rm kaczmarj/neurodocker:0.4.3 generate docker \
 --base neurodebian:stretch-non-free \
 --pkg-manager apt \
 --install fsl-5.0-core fsl-mni152-templates \
@@ -211,7 +211,7 @@ layout: false
 
 - creating a Singularity file using Neurodocker:
 ```bash
-docker run --rm kaczmarj/neurodocker:master generate singularity \
+docker run --rm kaczmarj/neurodocker:0.4.3 generate singularity \
 --base neurodebian:stretch-non-free \
 --pkg-manager apt \
 --install fsl-5.0-core fsl-mni152-templates \
@@ -242,7 +242,7 @@ layout: false
 
 - creating a Dockerfile_conda using Neurodocker:
 ```bash
-docker run --rm kaczmarj/neurodocker:master generate docker \
+docker run --rm kaczmarj/neurodocker:0.4.3 generate docker \
 --base neurodebian:stretch-non-free \
 --pkg-manager apt \
 --install fsl-5.0-core fsl-mni152-templates \
@@ -275,7 +275,7 @@ layout: false
 
 - running container
 ```bash
-docker run my_fsl
+docker run --rm my_fsl
 ```
 --
 
@@ -286,7 +286,7 @@ layout: false
 
 - running command within the container
 ```bash
-docker run my_fsl bet
+docker run --rm my_fsl bet
 ```
 --
 
@@ -299,11 +299,10 @@ layout: false
 - installing a datalad repository and downloading one T1w file
 
 ```bash
-mkdir data
-cd data
+mkdir ~data
+cd ~data
 datalad install -r ///workshops/nih-2017/ds000114
 datalad get ds000114/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz
-cd ..
 ```
 
 If you don't have datalad yet:
@@ -315,7 +314,7 @@ layout: false
 
 - mount a local directory with data (using read-only option) and running *bet* on the T1w file:
 ```bash
-docker run -v /home/jakub/data:/data:/data:ro my_fsl bet \
+docker run --rm -v /home/jakub/data:/data:ro my_fsl bet \
 /data/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz sub-01_output
 ```
 --
@@ -332,12 +331,12 @@ layout: false
 
 - creating a new directory for output
 ```bash
-mkdir output
+mkdir ~/output
 ```
 
 - mounting two local directories, with data and output, and running *bet* on the T1w file:
 ```bash
-docker run -v ~/data:/data:ro -v ~/output:/output my_fsl bet \
+docker run --rm -v ~/data:/data:ro -v ~/output:/output my_fsl bet \
 /data/sub-01/ses-test/anat/sub-01_ses-test_T1w.nii.gz /output/sub-01_output
 ```
 --
@@ -372,7 +371,7 @@ layout: false
 ```bash
 $ mkdir ~/my_singularity
 $ cd ~/my_singularity
-$ docker run --rm kaczmarj/neurodocker:master generate singularity \
+$ docker run --rm kaczmarj/neurodocker:0.4.3 generate singularity \
 --base neurodebian:stretch-non-free \
 --pkg-manager apt \
 --install fsl-5.0-core fsl-mni152-templates \
@@ -395,13 +394,25 @@ ls -l ~/output
 ```
 
 
+---
+layout: false
+
+## Creating a reproducible image
+
+- #### Use `--ndfreeze` neurodocker option
+- #### Pin things to specific versions
+  - #### Base image
+  - #### Python packages
+
+
+
 
 ---
 layout: false
 
 - running an interactive session:
 ```bash
-docker run -it my_fsl
+docker run --rm -it my_fsl
 ```
 --
 
